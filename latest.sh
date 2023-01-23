@@ -21,7 +21,7 @@ curl -s "https://${server}/api/v1/accounts/${id}/statuses" \
 
 # If the file is empty, we're done.
 size=$(wc -c "${result}" | cut -f1 -d' ')
-if [ $size -eq 0 ]
+if [ "$size" -eq 0 ]
 then
   exit 0
 fi
