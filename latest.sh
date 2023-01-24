@@ -1,4 +1,23 @@
-#!/bin/sh
+#!/usr/bin/env bash
+# Boilerplate
+set -o errexit
+set -o nounset
+set -o pipefail
+if [[ "${TRACE-0}" == "1" ]]
+then
+  set -o xtrace
+fi
+if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
+    echo 'Usage: ./latest.sh
+
+This script will take the user information from the file in the "config"
+variable, and generate a file containing the time, URL, and content of
+the posts tooted by the user on the current day.
+
+'
+    exit
+fi
+
 config=~/.config/latest-mastodon.json
 result=$(mktemp --tmpdir=/tmp lm.XXXXXXXXXX.json)
 
@@ -21,7 +40,7 @@ curl -s "https://${server}/api/v1/accounts/${id}/statuses" \
 
 # If the file is empty, we're done.
 size=$(wc -c "${result}" | cut -f1 -d' ')
-if [ "$size" -eq 0 ]
+if [[ "$size" -eq 0 ]]
 then
   exit 0
 fi
@@ -34,4 +53,5 @@ editor=/usr/bin/gedit
 # Clean up.
 sleep 0.25
 rm "${result}" "nohup.out"
+cd "$(dirname "$0")"
 
