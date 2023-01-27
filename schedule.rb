@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'highline/import'
 require 'json'
 require 'net/http'
@@ -28,6 +30,17 @@ def get_access_token(config)
   response = http.request request
 
   error response ? nil : JSON.parse(response.body)
+end
+
+def verify_account(server, token)
+  header_token = "#{token['token_type']} #{token['access_token']}"
+  url, http = make_http server, 'api/v1/accounts/verify_credentials'
+  request = Net::HTTP::Get.new url, { 'Authorization' => header_token }
+  response = http.request request
+
+  return nil if error response
+
+  JSON.parse response.body
 end
 config_name = File.join(Dir.home, '.config', 'latest-mastodon.json')
 config_file = File.open config_name
