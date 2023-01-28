@@ -32,15 +32,23 @@ def get_access_token(config)
   error response ? nil : JSON.parse(response.body)
 end
 
-def verify_account(server, token)
+def call_http_get(server, path, token)
   header_token = "#{token['token_type']} #{token['access_token']}"
-  url, http = make_http server, 'api/v1/accounts/verify_credentials'
+  url, http = make_http server, "api/v1/#{path}"
   request = Net::HTTP::Get.new url, { 'Authorization' => header_token }
   response = http.request request
 
   return nil if error response
 
   JSON.parse response.body
+end
+
+def verify_account(server, token)
+  call_http_get server, 'accounts/verify_credentials', token
+end
+
+def show_scheduled(server, token)
+  call_http_get server, 'scheduled_statuses', token
 end
 config_name = File.join(Dir.home, '.config', 'latest-mastodon.json')
 config_file = File.open config_name
