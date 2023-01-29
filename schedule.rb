@@ -50,6 +50,18 @@ end
 def show_scheduled(server, token)
   call_http_get server, 'scheduled_statuses', token
 end
+
+def send_toot(server, token, parameters)
+  header_token = "#{token['token_type']} #{token['access_token']}"
+  url, http = make_http server, 'api/v1/statuses'
+  request = Net::HTTP::Post.new url, { 'Authorization' => header_token }
+  request.set_form_data parameters
+  response = http.request request
+
+  return nil if error response
+
+  JSON.parse response.body
+end
 config_name = File.join(Dir.home, '.config', 'latest-mastodon.json')
 config_file = File.open config_name
 config_text = config_file.read
