@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'digest'
 require 'highline/import'
 require 'json'
 require 'net/http'
@@ -54,7 +55,9 @@ end
 def send_toot(server, token, parameters)
   header_token = "#{token['token_type']} #{token['access_token']}"
   url, http = make_http server, 'api/v1/statuses'
-  request = Net::HTTP::Post.new url, { 'Authorization' => header_token }
+  request = Net::HTTP::Post.new url,
+                                { 'Authorization' => header_token,
+                                  'Idempotency-Key' => Digest::SHA256.base64digest(parameters['status']) }
   request.set_form_data parameters
   response = http.request request
 
