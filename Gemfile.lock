@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    highline (2.1.0)
+    json (2.6.3)
+    pkg-config (1.5.1)
+    rmagick (5.1.0)
+      pkg-config (~> 1.4)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  highline
+  json
+  rmagick
+
+BUNDLED WITH
+   2.3.20
