@@ -65,6 +65,18 @@ def send_toot(server, token, parameters)
 
   JSON.parse response.body
 end
+
+def delete_scheduled_toot(server, token, id)
+  header_token = "#{token['token_type']} #{token['access_token']}"
+  url, http = make_http server, "api/v1/scheduled_statuses/#{id}"
+  request = Net::HTTP::Delete.new url, { 'Authorization' => header_token }
+  response = http.request request
+
+  return nil if error response
+
+  JSON.parse response.body
+end
+
 config_name = File.join(Dir.home, '.config', 'latest-mastodon.json')
 config_file = File.open config_name
 config_text = config_file.read
