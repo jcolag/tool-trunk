@@ -77,6 +77,22 @@ def delete_scheduled_toot(server, token, id)
   JSON.parse response.body
 end
 
+def convert_image(filename, max_width)
+end
+
+def download_image(address, max_width)
+  url = URI address
+  _, http = make_http url.host, url.path
+  request = Net::HTTP::Get.new url
+  response = http.request request
+
+  return nil if error response
+
+  filename = File.basename url.path
+  File.open(filename, 'w') { |f| f.write response.body }
+  convert_image filename, max_width
+end
+
 config_name = File.join(Dir.home, '.config', 'latest-mastodon.json')
 config_file = File.open config_name
 config_text = config_file.read
