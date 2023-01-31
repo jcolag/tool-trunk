@@ -2,9 +2,13 @@
 
 require 'digest'
 require 'highline/import'
+require 'http'
 require 'json'
 require 'net/http'
+require 'rmagick'
 require 'uri'
+
+include Magick
 
 def make_http(server, path)
   url = URI "https://#{server}/#{path}"
@@ -78,6 +82,14 @@ def delete_scheduled_toot(server, token, id)
 end
 
 def convert_image(filename, max_width)
+  outfile = "#{filename}.png"
+  img = Image.read(filename).first
+  small = img.change_geometry!("#{max_width}x#{max_width}>") do |cols, rows, _img|
+    img.resize(cols, rows)
+  end
+  small.write outfile
+  File.delete filename
+  outfile
 end
 
 def download_image(address, max_width)
