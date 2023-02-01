@@ -81,6 +81,20 @@ def delete_scheduled_toot(server, token, id)
   JSON.parse response.body
 end
 
+def submit_media(filename, description, server, token)
+  header_token = "#{token['token_type']} #{token['access_token']}"
+  url, http = make_http server, 'api/v2/media'
+  form_data = [['file', File.open(filename)], ['description', description]]
+  request = Net::HTTP::Post.new url, { 'Authorization' => header_token }
+  request.set_form form_data, 'multipart/form-data'
+  response = http.request request
+  File.delete filename
+
+  return nil if error response
+
+  JSON.parse response.body
+end
+
 def convert_image(filename, max_width)
   outfile = "#{filename}.png"
   img = Image.read(filename).first
