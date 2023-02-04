@@ -5,10 +5,55 @@ require 'highline/import'
 require 'http'
 require 'json'
 require 'net/http'
+require 'optparse'
+require 'optparse/time'
+require 'ostruct'
 require 'rmagick'
 require 'uri'
 
 include Magick
+
+class Options
+  def self.parse(args)
+    options = OpenStruct.new
+    options.description = ''
+    options.image = nil
+    options.sensitive = false
+    options.status = ''
+    options.time = Time.now
+    options.warning = ''
+
+    opt_parser = OptionParser.new do |opts|
+      opts.banner = 'Usage:  schedule.rb [options]'
+      opts.separator ''
+      opts.separator 'Specific options:'
+      opts.on('-w', '--content-warning CW', 'A content warning') do |cw|
+        options.warning = cw
+      end
+      opts.on('-x', '--delete', 'Delete the toot after scheduling it') do |_|
+        options.delete = true
+      end
+      opts.on('-d', '--description DESC', 'The image description') do |d|
+        options.description = d
+      end
+      opts.on('-i', '--image-url URL', 'The URL of the toot header image') do |i|
+        options.image = i
+      end
+      opts.on('-s', '--status [STATUS]', 'The message conveyed by the toot') do |s|
+        options.status = s
+      end
+      opts.on('-t', '--time [TIME]', Time, 'The time to post the toot') do |t|
+        options.time = t
+      end
+      opts.on('-v', '--sensitive', 'The linked image has sensitive content') do |_|
+        options.sensitive = true
+      end
+    end
+
+    opt_parser.parse!(args)
+    options
+  end
+end
 
 def make_http(server, path)
   url = URI "https://#{server}/#{path}"
@@ -123,6 +168,8 @@ config_name = File.join(Dir.home, '.config', 'latest-mastodon.json')
 config_file = File.open config_name
 config_text = config_file.read
 config = JSON.parse config_text
+media = nil
+options = Options.parse ARGV
 
 if config['token'].nil?
   access_token = get_access_token config
