@@ -179,3 +179,28 @@ if config['token'].nil?
 end
 
 config_file.close
+
+unless options.image.nil?
+  filename = download_image options.image, 1024
+  media = submit_media filename, config.description, config['server'], config['token']
+end
+
+return if options.status.empty?
+
+data = {
+  media_ids: media.nil? ? nil : [media.id],
+  scheduled_at: config.time,
+  sensitive: config.sensitive,
+  spoiler_text: config.warning,
+  status: config.status
+}
+toot = send_toot config['server'], config['token'], data
+scheduled = show_scheduled config['server'], config['token']
+
+return if options.delete
+
+scheduled.each do |t|
+  puts t['id']
+  deletion = delete_scheduled_toot config['server'], config['token'], t['id']
+  puts JSON.pretty_generate deletion
+end
