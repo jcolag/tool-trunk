@@ -16,12 +16,15 @@ include Magick
 class Options
   def self.parse(args)
     options = OpenStruct.new
-    options.description = ''
+    options.delete = false
+    options.description = nil
     options.image = nil
+    options.list = false
+    options.media = nil
     options.sensitive = false
-    options.status = ''
+    options.status = nil
     options.time = Time.now
-    options.warning = ''
+    options.warning = nil
 
     opt_parser = OptionParser.new do |opts|
       opts.banner = 'Usage:  schedule.rb [options]'
@@ -36,18 +39,25 @@ class Options
       opts.on('-d', '--description DESC', 'The image description') do |d|
         options.description = d
       end
+      opts.on('-f', '--image-file FILE', 'A header image') do |i|
+        options.media = i
+      end
       opts.on('-i', '--image-url URL', 'The URL of the toot header image') do |i|
         options.image = i
       end
-      opts.on('-s', '--status [STATUS]', 'The message conveyed by the toot') do |s|
+      opts.on('-l', '--list', 'Ignore other arguments and show schedule') do |l|
+        options.list = true
+      end
+      opts.on('-s', '--status STATUS', 'The message conveyed by the toot') do |s|
         options.status = s
       end
-      opts.on('-t', '--time [TIME]', Time, 'The time to post the toot') do |t|
+      opts.on('-t', '--time TIME', Time, 'The time to post the toot') do |t|
         options.time = t
       end
       opts.on('-v', '--sensitive', 'The linked image has sensitive content') do |_|
         options.sensitive = true
       end
+      opts.on('-z', '--zzz', 'Does nothing; just for debugging') { }
     end
 
     opt_parser.parse!(args)
