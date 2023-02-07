@@ -181,6 +181,12 @@ config = JSON.parse config_text
 media = nil
 options = Options.parse ARGV
 
+if options.list
+  scheduled = show_scheduled config['server'], config['token']
+  pp scheduled
+  return
+end
+
 if config['token'].nil?
   access_token = get_access_token config
   config['token'] = access_token
