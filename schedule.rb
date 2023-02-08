@@ -187,6 +187,17 @@ if options.list
   return
 end
 
+if options.delete
+  scheduled = show_scheduled config['server'], config['token']
+  scheduled.each do |t|
+    puts t['id']
+    deletion = delete_scheduled_toot config['server'], config['token'], t['id']
+    puts JSON.pretty_generate deletion
+  end
+
+  return
+end
+
 if config['token'].nil?
   access_token = get_access_token config
   config['token'] = access_token
@@ -211,12 +222,4 @@ data = {
   status: config.status
 }
 toot = send_toot config['server'], config['token'], data
-scheduled = show_scheduled config['server'], config['token']
-
-return if options.delete
-
-scheduled.each do |t|
-  puts t['id']
-  deletion = delete_scheduled_toot config['server'], config['token'], t['id']
-  puts JSON.pretty_generate deletion
-end
+p toot
