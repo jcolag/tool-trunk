@@ -212,14 +212,18 @@ unless options.image.nil?
   media = submit_media filename, options.description, config['server'], config['token']
 end
 
-return if options.status.empty?
+unless options.media.nil?
+  media = submit_media options.media, options.description, config['server'], config['token']
+end
+
+return if options.status.nil?
 
 data = {
-  media_ids: media.nil? ? nil : [media.id],
-  scheduled_at: config.time,
-  sensitive: config.sensitive,
-  spoiler_text: config.warning,
-  status: config.status
+  media_ids: media.nil? ? nil : [media['id']],
+  scheduled_at: options.time,
+  sensitive: options.sensitive,
+  spoiler_text: options.warning,
+  status: options.status
 }
 toot = send_toot config['server'], config['token'], data
 p toot
