@@ -23,7 +23,7 @@ class Options
     options.media = nil
     options.sensitive = false
     options.status = nil
-    options.time = Time.now
+    options.time = Time.now + 4
     options.warning = nil
 
     opt_parser = OptionParser.new do |opts|
@@ -69,7 +69,7 @@ def make_http(server, path)
   url = URI "https://#{server}/#{path}"
   http = Net::HTTP.new url.host, url.port
   http.use_ssl = true
-  http.set_debug_output $stdout
+  # http.set_debug_output $stdout
   [url, http]
 end
 
@@ -116,7 +116,7 @@ def send_toot(server, token, parameters)
   url, http = make_http server, 'api/v1/statuses'
   request = Net::HTTP::Post.new url,
                                 { 'Authorization' => header_token,
-                                  'Idempotency-Key' => Digest::SHA256.base64digest(parameters['status']) }
+                                  'Idempotency-Key' => Digest::SHA256.base64digest(parameters[:status]) }
   request.set_form_data parameters
   response = http.request request
 
@@ -218,6 +218,7 @@ end
 
 return if options.status.nil?
 
+sleep 2
 data = {
   media_ids: media.nil? ? nil : [media['id']],
   scheduled_at: options.time,
@@ -226,4 +227,4 @@ data = {
   status: options.status
 }
 toot = send_toot config['server'], config['token'], data
-p toot
+pp toot
