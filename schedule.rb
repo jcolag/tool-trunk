@@ -116,9 +116,9 @@ def send_toot(server, token, parameters)
   url, http = make_http server, 'api/v1/statuses'
   request = Net::HTTP::Post.new url,
                                 { 'Authorization' => header_token,
+                                  'Content-Type' => 'application/json',
                                   'Idempotency-Key' => Digest::SHA256.base64digest(parameters[:status]) }
-  request.set_form_data parameters
-  response = http.request request
+  response = http.request request, parameters.to_json
 
   return nil if error response
 
