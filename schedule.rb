@@ -13,6 +13,7 @@ require 'uri'
 
 include Magick
 
+# Class to process command-line arguments
 class Options
   def self.parse(args)
     options = OpenStruct.new
@@ -45,7 +46,7 @@ class Options
       opts.on('-i', '--image-url URL', 'The URL of the toot header image') do |i|
         options.image = i
       end
-      opts.on('-l', '--list', 'Ignore other arguments and show schedule') do |l|
+      opts.on('-l', '--list', 'Ignore other arguments and show schedule') do
         options.list = true
       end
       opts.on('-s', '--status STATUS', 'The message conveyed by the toot') do |s|
@@ -57,7 +58,6 @@ class Options
       opts.on('-v', '--sensitive', 'The linked image has sensitive content') do |_|
         options.sensitive = true
       end
-      opts.on('-z', '--zzz', 'Does nothing; just for debugging') { }
     end
 
     opt_parser.parse!(args)
@@ -170,7 +170,7 @@ def download_image(address, max_width)
   return nil if error response
 
   filename = File.basename url.path
-  File.open(filename, 'w') { |f| f.write response.body }
+  File.write(filename, response.body)
   convert_image filename, max_width
 end
 
@@ -183,7 +183,7 @@ options = Options.parse ARGV
 
 if options.list
   scheduled = show_scheduled config['server'], config['token']
-  pp scheduled
+  puts scheduled.to_json
   return
 end
 
@@ -212,9 +212,7 @@ unless options.image.nil?
   media = submit_media filename, options.description, config['server'], config['token']
 end
 
-unless options.media.nil?
-  media = submit_media options.media, options.description, config['server'], config['token']
-end
+media = submit_media options.media, options.description, config['server'], config['token'] unless options.media.nil?
 
 return if options.status.nil?
 
