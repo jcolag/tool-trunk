@@ -209,6 +209,7 @@ config_file.close
 
 unless options.image.nil?
   filename = download_image options.image, 1024
+  exit! if filename.nil?
   media = submit_media filename, options.description, config['server'], config['token']
 end
 
