@@ -25,13 +25,14 @@ class Options
 end
 
 def parse_date(heading)
-  tz = DateTime.now.zone.gsub ':', ''
+  tz = (Time.now + 6 * 86400).utc_offset / 36
   part = heading.split
   param = {}
 
   return param if part.length < 7
 
-  param[:time] = DateTime.parse "#{part[7]} #{part[6]} #{part[5]} #{part[1]}#{tz}"
+  dt = DateTime.parse "#{part[6]} #{part[5]} #{part[4]} #{part[1]}#{tz}"
+  param[:time] = dt.iso8601.sub /.*\K:/, ''
   param
 end
 
