@@ -42,13 +42,24 @@ def build_status(params)
   "#{params[:title]} #{params[:url]}\n\n#{params[:quote]}\n\n#{params[:hashtags]}"
 end
 
+def fmt_args(command, params)
+  result = command.split ' '
+
+  params.keys.each do |k|
+    result.push "--#{k.gsub '_', '-'}"
+    result.push "\"#{params[k]}\""
+  end
+
+  result
+end
+
 def process(params)
   return if params[:status].nil? || params[:status].strip.empty?
 
-  puts params.to_json
-  %x(/usr/bin/echo -e '#{params[:status]}')
+  args = fmt_args 'ruby schedule.rb', params
+  system args.join ' '
   unless $? == 0
-    puts 'Oops'
+    puts args.join ' '
   end
 end
 
