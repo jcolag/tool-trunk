@@ -43,7 +43,7 @@ def build_status(params)
 end
 
 def process(params)
-  return if params[:status].nil?
+  return if params[:status].nil? || params[:status].strip.empty?
 
   puts params.to_json
   %x(/usr/bin/echo -e '#{params[:status]}')
@@ -58,14 +58,14 @@ parameters = {}
 File.open(options.file).each_line do |line|
   if line.start_with? '## '
     parameters[:status] = build_status parameters
-    process parameters
+    process parameters.except(:cite, :hashtags, :quote, :title, :url)
     parameters = parse_date line
     break if parameters[:time].nil?
   elsif line.start_with? '{% cw '
-    parameters[:cw] = line.split[2..-2].join ' '
+    parameters[:content_warning] = line.split[2..-2].join ' '
   elsif line.start_with? '{% embed '
     part = line.split[2..-2].join(' ').split '|'
-    parameters[:image] = part[0]
+    parameters[:image_url] = part[0]
     parameters[:description] = part[1]
     parameters[:sensitive] = true unless part[2] == 'false'
   elsif line.start_with? '[<i '
