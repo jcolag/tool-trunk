@@ -39,14 +39,14 @@ end
 def build_status(params)
   return "#{params[:quote]}\n\n#{params[:cite]}\n\n#{params[:hashtags]}" unless params[:cite].nil?
 
-  "#{params[:title]} #{params[:url]}\n\n#{params[:quote]}\n\n#{params[:hashtags]}"
+  "#{params[:title]} #{params[:url]}\n\n#{params[:quote].strip}\n\n#{params[:hashtags]}"
 end
 
 def fmt_args(command, params)
   result = command.split ' '
 
   params.keys.each do |k|
-    result.push "--#{k.gsub '_', '-'}"
+    result.push "--#{k.to_s.gsub '_', '-'}"
     result.push "\"#{params[k]}\""
   end
 
