@@ -37,6 +37,20 @@ def parse_date(heading)
   param
 end
 
+def parse_link(line)
+  link = line.split '['
+  title = nil
+  url = nil
+
+  if link.length > 2
+    link = link[2]
+    title = link.split(']')[0]
+    url = link.split('(')[1].split(')')[0]
+  end
+
+  [title, url]
+end
+
 def build_status(params)
   return if params[:quote].nil?
   return "#{params[:quote].gsub "\n\n", "\n"}\n\n#{params[:cite]}\n\n#{params[:hashtags]}" unless params[:cite].nil?
@@ -82,13 +96,10 @@ File.open(options.file).each_line do |line|
     parameters[:description] = part[1]
     parameters[:sensitive] = true unless part[2] == 'false'
   elsif line.start_with? '[<i '
-    link = line.split '['
+    part = parse_link line
 
-    if link.length > 2
-      link = link[2]
-      parameters[:title] = link.split(']')[0]
-      parameters[:url] = link.split('(')[1].split(')')[0]
-    end
+    parameters[:title] = part[0]
+    parameters[:url] = part[1]
   elsif line.start_with? ' > '
     parameters[:quote] += "\n#{line.slice(3, line.length)}"
   elsif line.start_with? '{% cite '
