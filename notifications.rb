@@ -62,4 +62,4 @@ end
 config_file.close
 
 notifications = get_notifications config['server'], config['token']
-pp notifications
+puts notifications.to_json
