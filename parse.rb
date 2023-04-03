@@ -33,6 +33,7 @@ def parse_date(heading)
 
   dt = DateTime.parse "#{part[6]} #{part[5]} #{part[4]} #{part[1]}#{tz}"
 
+  param[:quote] = ''
   param[:time] = dt.iso8601.sub(/.*\K:/, '')
   param
 end
