@@ -1,4 +1,7 @@
 let config = {};
+let latch = true;
+let timer = null;
+let timeline = [];
 
 window.addEventListener('load', (e) => {
   const modal = document.getElementById('startup-modal');
