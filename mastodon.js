@@ -12,7 +12,20 @@ window.addEventListener('load', (e) => {
       response.arrayBuffer()
         .then(setConfig);
     });
+
+  timer = setInterval(getTimeline, 200);
 });
+
+function getTimeline() {
+  if (latch === true) {
+    return;
+  }
+
+  clearInterval(timer);
+  const tl = httpGet(`https://${config.server}/api/v1/timelines/public`);
+}
+
+}
 
 function setConfig(response) {
   const modal = document.getElementById('startup-modal');
@@ -21,6 +34,8 @@ function setConfig(response) {
 
   config = JSON.parse(json);
   modal.classList.add('hidden-modal');
+  latch = false;
+}
 
 // Adapted from https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests
 function httpGet(url) {
