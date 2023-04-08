@@ -23,8 +23,25 @@ function getTimeline() {
 
   clearInterval(timer);
   const tl = httpGet(`https://${config.server}/api/v1/timelines/public`);
+  timer = setInterval(layoutTimeline, 100);
 }
 
+function layoutTimeline() {
+  if (timeline.length === 0) {
+    return;
+  }
+
+  const tl = document.getElementById('timeline');
+
+  clearInterval(timer);
+  timer = null;
+  timeline.forEach((t) => {
+    const panel = document.createElement('div');
+
+    panel.classList.add('toot');
+    panel.innerHTML = t.content;
+    tl.appendChild(panel);
+  });
 }
 
 function setConfig(response) {
