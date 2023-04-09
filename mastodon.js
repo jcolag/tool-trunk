@@ -1,6 +1,6 @@
 let config = {};
 let latch = true;
-let timer = null;
+let timelineInterval = null;
 let timeline = [];
 
 window.addEventListener('load', (e) => {
@@ -13,7 +13,7 @@ window.addEventListener('load', (e) => {
         .then(setConfig);
     });
 
-  timer = setInterval(getTimeline, 200);
+  timelineInterval = setInterval(getTimeline, 200);
 });
 
 function getTimeline() {
@@ -21,9 +21,9 @@ function getTimeline() {
     return;
   }
 
-  clearInterval(timer);
+  clearInterval(timelineInterval);
   const tl = httpGet(`https://${config.server}/api/v1/timelines/public`);
-  timer = setInterval(layoutTimeline, 100);
+  timelineInterval = setInterval(layoutTimeline, 100);
 }
 
 function layoutTimeline() {
@@ -33,8 +33,8 @@ function layoutTimeline() {
 
   const tl = document.getElementById('timeline');
 
-  clearInterval(timer);
-  timer = null;
+  clearInterval(timelineInterval);
+  timelineInterval = null;
   timeline.forEach((t) => {
     const panel = document.createElement('div');
 
