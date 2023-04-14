@@ -1,6 +1,8 @@
 let config = {};
+let pantry = {};
 let latch = true;
 let timelineInterval = null;
+let pantryInterval = null;
 let timeline = [];
 
 window.addEventListener('load', (e) => {
@@ -14,7 +16,27 @@ window.addEventListener('load', (e) => {
     });
 
   timelineInterval = setInterval(getTimeline, 200);
+  pantryInterval = setInterval(getPantry, 250);
 });
+
+function getPantry() {
+  if (!Object.prototype.hasOwnProperty.call(config, 'pantry')) {
+    return;
+  }
+
+  const pantry = httpGet(`https://getpantry.cloud/apiv1/pantry/${config.pantry}`);
+
+  clearInterval(pantryInterval);
+  pantryInterval = setInterval(updatePantry, 6000);
+}
+
+function updatePantry() {
+  if (timeline.length === 0) {
+    return;
+  }
+
+  // Eventually, we'll insert data based on the timeline contents.
+}
 
 function getTimeline() {
   if (latch === true) {
