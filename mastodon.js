@@ -99,3 +99,17 @@ function httpGet(url) {
   latch = false;
 }
 
+function httpPut(url, data) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.withCredentials = true;
+  xhr.addEventListener("readystatechange", function() {
+    if (this.readyState === 4) {
+      return this.responseText;
+    }
+  });
+
+  xhr.open("PUT", url);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send(data);
+}
