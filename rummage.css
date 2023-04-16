@@ -8,12 +8,20 @@ main {
 }
 
 .column {
-  border: 1px solid var(--blue);
+  border-bottom: 1px dashed var(--violet);
+  border-top: 1px dashed var(--violet);
   height: 94vh;
   margin: 0;
   max-width: 33vw;
   overflow-y: scroll;
-  padding: 0.5em;
+  padding: 0;
+}
+
+.toot {
+  border: 1px solid var(--violet);
+  border-radius: 0.25em;
+  margin: 0;
+  padding: 0 0.5em;
 }
 
 div.hidden-modal {
