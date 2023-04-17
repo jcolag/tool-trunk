@@ -62,6 +62,36 @@ function layoutTimeline() {
 
     panel.classList.add('toot');
     panel.innerHTML = t.content;
+
+    t.media_attachments.forEach((m) => {
+      if (m.type === 'image') {
+        const image = document.createElement('img');
+
+        image.src = m.url;
+
+        if (m.description) {
+          image.alt = m.description;
+          image.title = m.description;
+        }
+
+        panel.appendChild(image);
+      }
+
+      if (m.type === 'video') {
+        const video = document.createElement('video');
+        const source = document.createEleemnt('source');
+
+        source.src = m.url;
+
+        if (m.description) {
+          image.title = m.description;
+        }
+
+        video.appendChild(source);
+        panel.appendChild(video);
+      }
+    });
+
     tl.appendChild(panel);
   });
 }
