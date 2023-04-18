@@ -68,6 +68,11 @@ function layoutTimeline() {
         const image = document.createElement('img');
 
         image.src = m.url;
+        image.classList.add('embedded-image');
+
+        if (t.sensitive) {
+          image.classList.add('sensitive');
+        }
 
         if (m.description) {
           image.alt = m.description;
@@ -81,7 +86,12 @@ function layoutTimeline() {
         const video = document.createElement('video');
         const source = document.createEleemnt('source');
 
+        video.classList = 'embedded-video';
         source.src = m.url;
+
+        if (t.sensitive) {
+          image.classList.add('sensitive');
+        }
 
         if (m.description) {
           image.title = m.description;
