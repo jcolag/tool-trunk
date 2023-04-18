@@ -1,6 +1,10 @@
 body {
 }
 
+img, video {
+  max-width: 100%;
+}
+
 main {
   margin: 0;
   margin-left: 15ch;
