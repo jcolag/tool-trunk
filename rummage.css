@@ -21,6 +21,10 @@ main {
   max-width: 100%;
 }
 
+.sensitive {
+  filter: blur(0.5em) contrast(0.1);
+}
+
 .toot {
   border: 1px solid var(--violet);
   border-radius: 0.25em;
