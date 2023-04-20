@@ -17,8 +17,16 @@ main {
   padding: 0;
 }
 
+.ellipsis:after {
+  content: '…';
+}
+
 .embedded-image, .embedded-video {
   max-width: 100%;
+}
+
+.invisible {
+  display: none;
 }
 
 .sensitive {
