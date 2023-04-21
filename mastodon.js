@@ -24,10 +24,18 @@ function getPantry() {
     return;
   }
 
-  const pantry = httpGet(`https://getpantry.cloud/apiv1/pantry/${config.pantry}`);
+  const pantry = httpGet(
+    `https://getpantry.cloud/apiv1/pantry/${config.pantry.trim()}`,
+    null,
+    assignPantry
+  );
 
   clearInterval(pantryInterval);
   pantryInterval = setInterval(updatePantry, 6000);
+}
+
+function assignPantry(p) {
+  pantry = p;
 }
 
 function updatePantry() {
@@ -44,8 +52,16 @@ function getTimeline() {
   }
 
   clearInterval(timelineInterval);
-  const tl = httpGet(`https://${config.server}/api/v1/timelines/public`);
+  const tl = httpGet(
+    `https://${config.server}/api/v1/timelines/home`,
+    `${config.token.token_type} ${config.token.access_token}`,
+    assignTimeline
+  );
   timelineInterval = setInterval(layoutTimeline, 100);
+}
+
+function assignTimeline(t) {
+  timeline = t;
 }
 
 function layoutTimeline() {
@@ -117,14 +133,18 @@ function setConfig(response) {
 }
 
 // Adapted from https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Synchronous_and_Asynchronous_Requests
-function httpGet(url) {
+function httpGet(url, auth, assigner) {
   const xhr = new XMLHttpRequest();
 
   xhr.open('GET', url, true);
+  if (auth) {
+    xhr.setRequestHeader('Authorization', auth);
+  }
+
   xhr.onload = (e) => {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
-        timeline = JSON.parse(xhr.responseText);
+        assigner(JSON.parse(xhr.responseText));
       } else {
         console.error(xhr.statusText);
         return null;
