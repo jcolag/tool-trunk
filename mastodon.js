@@ -73,11 +73,45 @@ function layoutTimeline() {
 
   clearInterval(timelineInterval);
   timelineInterval = null;
-  timeline.forEach((t) => {
+  timeline.reverse().forEach((t) => {
+    if (t.content === '') {
+      return;
+    }
+
     const panel = document.createElement('div');
+    const status = document.createElement('div');
+    const header = document.createElement('div');
+    const footer = document.createElement('div');
+    const headerText = document.createElement('span');
+    const avatar = document.createElement('img');
+    const user = document.createElement('span');
+    const userLink = document.createElement('a');
+    const toot = document.createElement('span');
+    const tootLink = document.createElement('a');
+    const line = document.createElement('br');
+    const date = new Date(t.created_at);
 
     panel.classList.add('toot');
-    panel.innerHTML = t.content;
+    header.classList.add('header');
+    footer.classList.add('footer');
+    headerText.classList.add('head');
+    status.innerHTML = t.content;
+    avatar.src = t.account.avatar;
+    userLink.href = t.account.url;
+    userLink.innerHTML = t.account.display_name;
+    tootLink.href = t.url;
+    tootLink.innerHTML = date.toString().split(' ').slice(0,4).join(' ');
+    header.appendChild(avatar);
+    user.appendChild(userLink);
+    toot.appendChild(tootLink);
+    headerText.appendChild(userLink);
+    headerText.appendChild(line);
+    headerText.appendChild(tootLink);
+    header.appendChild(headerText);
+    header.appendChild(toot);
+    panel.appendChild(header);
+    panel.appendChild(status);
+    panel.appendChild(footer);
 
     t.media_attachments.forEach((m) => {
       if (m.type === 'image') {
