@@ -25,6 +25,25 @@ main {
   max-width: 100%;
 }
 
+.footer {
+  border-top: 1px dotted var(--orange);
+}
+
+.header {
+  border-bottom: 1px dotted var(--orange);
+  columns: 2;
+  display: grid;
+}
+
+.header img {
+  grid-column: 1;
+  max-height: 3.25em;
+}
+
+.header .head {
+  grid-column: 2;
+}
+
 .invisible {
   display: none;
 }
