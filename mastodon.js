@@ -89,13 +89,24 @@ function layoutTimeline() {
     const toot = document.createElement('span');
     const tootLink = document.createElement('a');
     const line = document.createElement('br');
+    const warning = document.createElement('summary');
+    const warned = document.createElement('details');
     const date = new Date(t.created_at);
 
     panel.classList.add('toot');
     header.classList.add('header');
     footer.classList.add('footer');
     headerText.classList.add('head');
-    status.innerHTML = t.content;
+
+    if (t.spoiler_text === null || t.spoiler_text.length === 0) {
+      status.innerHTML = t.content;
+    } else {
+      warned.innerHTML = t.content;
+      warning.innerHTML = t.spoiler_text;
+      warned.appendChild(warning);
+      status.appendChild(warned);
+    }
+
     avatar.src = t.account.avatar;
     userLink.href = t.account.url;
     userLink.innerHTML = t.account.display_name;
