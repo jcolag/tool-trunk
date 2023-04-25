@@ -75,93 +75,135 @@ function layoutTimeline() {
       return;
     }
 
+    const status = buildStatus(t);
+    const footer = buildFooter(t);
+    const avatar = buildAvatar(t);
+    const header = buildHeader(t, avatar);
+    const panel = buildTootPanel(t, header, footer, status);
+
+    tl.appendChild(panel);
+  });
+}
+
+function buildTootPanel(toot, header, footer, status) {
     const panel = document.createElement('div');
-    const status = document.createElement('div');
-    const header = document.createElement('div');
-    const footer = document.createElement('div');
-    const headerText = document.createElement('span');
-    const avatar = document.createElement('img');
-    const user = document.createElement('span');
-    const userLink = document.createElement('a');
-    const toot = document.createElement('span');
-    const tootLink = document.createElement('a');
-    const line = document.createElement('br');
-    const warning = document.createElement('summary');
-    const warned = document.createElement('details');
-    const date = new Date(t.created_at);
 
     panel.classList.add('toot');
-    header.classList.add('header');
-    footer.classList.add('footer');
-    headerText.classList.add('head');
-
-    if (t.spoiler_text === null || t.spoiler_text.length === 0) {
-      status.innerHTML = t.content;
-    } else {
-      warned.innerHTML = t.content;
-      warning.innerHTML = t.spoiler_text;
-      warned.appendChild(warning);
-      status.appendChild(warned);
-    }
-
-    avatar.src = t.account.avatar;
-    userLink.href = t.account.url;
-    userLink.innerHTML = t.account.display_name;
-    tootLink.href = t.url;
-    tootLink.innerHTML = date.toString().split(' ').slice(0,4).join(' ');
-    header.appendChild(avatar);
-    user.appendChild(userLink);
-    toot.appendChild(tootLink);
-    headerText.appendChild(userLink);
-    headerText.appendChild(line);
-    headerText.appendChild(tootLink);
-    header.appendChild(headerText);
-    header.appendChild(toot);
     panel.appendChild(header);
     panel.appendChild(status);
     panel.appendChild(footer);
 
-    t.media_attachments.forEach((m) => {
-      if (m.type === 'image') {
-        const image = document.createElement('img');
+    toot.media_attachments.forEach((m) => {
+      switch (m.type) {
+        case 'image':
+          const image = buildImage(m, toot);
 
-        image.src = m.url;
-        image.classList.add('embedded-image');
+          panel.appendChild(image);
+          break;
+        case 'video':
+          const video = buildVideo(m, toot);
 
-        if (t.sensitive) {
-          image.classList.add('sensitive');
-        }
-
-        if (m.description) {
-          image.alt = m.description;
-          image.title = m.description;
-        }
-
-        panel.appendChild(image);
-      }
-
-      if (m.type === 'video') {
-        const video = document.createElement('video');
-        const source = document.createEleemnt('source');
-
-        video.classList = 'embedded-video';
-        source.src = m.url;
-
-        if (t.sensitive) {
-          video.classList.add('sensitive');
-        }
-
-        if (m.description) {
-          video.title = m.description;
-        }
-
-        video.appendChild(source);
-        panel.appendChild(video);
+          panel.appendChild(video);
       }
     });
 
-    tl.appendChild(panel);
-  });
+  return panel;
+}
+
+function buildHeader(toot, avatar) {
+  const date = new Date(toot.created_at);
+  const header = document.createElement('div');
+  const headerText = document.createElement('span');
+  const line = document.createElement('br');
+  const tootLabel = document.createElement('span');
+  const tootLink = document.createElement('a');
+  const user = document.createElement('span');
+  const userLink = document.createElement('a');
+
+  header.classList.add('header');
+  headerText.classList.add('head');
+  userLink.href = toot.account.url;
+  userLink.innerHTML = toot.account.display_name;
+  tootLink.href = toot.url;
+  tootLink.innerHTML = date.toString().split(' ').slice(0,4).join(' ');
+  header.appendChild(avatar);
+  user.appendChild(userLink);
+  tootLabel.appendChild(tootLink);
+  headerText.appendChild(userLink);
+  headerText.appendChild(line);
+  headerText.appendChild(tootLink);
+  header.appendChild(headerText);
+  header.appendChild(tootLabel);
+  return header;
+}
+
+function buildAvatar(toot) {
+  const avatar = document.createElement('img');
+
+  avatar.src = toot.account.avatar;
+  return avatar;
+}
+
+function buildStatus(toot) {
+  const status = document.createElement('div');
+  const warned = document.createElement('details');
+  const warning = document.createElement('summary');
+
+  if (toot.spoiler_text === null || toot.spoiler_text.length === 0) {
+    status.innerHTML = toot.content;
+  } else {
+    warned.innerHTML = toot.content;
+    warning.innerHTML = toot.spoiler_text;
+    warned.appendChild(warning);
+    status.appendChild(warned);
+  }
+
+  return status;
+}
+
+function buildImage(media, toot) {
+  const image = document.createElement('img');
+
+  image.src = media.url;
+  image.classList.add('embedded-image');
+
+  if (toot.sensitive) {
+    image.classList.add('sensitive');
+  }
+
+  if (media.description) {
+    image.alt = media.description;
+    image.title = media.description;
+  }
+
+  return image;
+}
+
+function buildVideo(media, toot) {
+  const source = document.createEleemnt('source');
+  const video = document.createElement('video');
+
+  source.src = media.url;
+  video.classList = 'embedded-video';
+
+  if (toot.sensitive) {
+    video.classList.add('sensitive');
+  }
+
+  if (media.description) {
+    video.alt = media.description;
+    video.title = media.description;
+  }
+
+  video.appendChild(source);
+  return video;
+}
+
+function buildFooter(toot) {
+  const footer = document.createElement('div');
+
+  footer.classList.add('footer');
+  return footer;
 }
 
 function setConfig(response) {
