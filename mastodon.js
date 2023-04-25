@@ -5,10 +5,7 @@ let timelineInterval = null;
 let pantryInterval = null;
 let timeline = [];
 
-window.addEventListener('load', (e) => {
-  const modal = document.getElementById('startup-modal');
-  const col = document.getElementById('timeline');
-
+window.addEventListener('load', () => {
   fetch('./rummage.json')
     .then((response) => {
       response.arrayBuffer()
@@ -24,7 +21,7 @@ function getPantry() {
     return;
   }
 
-  const pantry = httpGet(
+  httpGet(
     `https://getpantry.cloud/apiv1/pantry/${config.pantry.trim()}`,
     null,
     assignPantry
@@ -52,7 +49,7 @@ function getTimeline() {
   }
 
   clearInterval(timelineInterval);
-  const tl = httpGet(
+  httpGet(
     `https://${config.server}/api/v1/timelines/home`,
     `${config.token.token_type} ${config.token.access_token}`,
     assignTimeline
@@ -151,11 +148,11 @@ function layoutTimeline() {
         source.src = m.url;
 
         if (t.sensitive) {
-          image.classList.add('sensitive');
+          video.classList.add('sensitive');
         }
 
         if (m.description) {
-          image.title = m.description;
+          video.title = m.description;
         }
 
         video.appendChild(source);
@@ -186,7 +183,7 @@ function httpGet(url, auth, assigner) {
     xhr.setRequestHeader('Authorization', auth);
   }
 
-  xhr.onload = (e) => {
+  xhr.onload = () => {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         assigner(JSON.parse(xhr.responseText));
@@ -197,6 +194,7 @@ function httpGet(url, auth, assigner) {
     }
   };
   xhr.onerror = (e) => {
+    console.log(e);
     console.error(xhr.statusText);
     return null;
   };
@@ -208,13 +206,13 @@ function httpPut(url, data) {
   const xhr = new XMLHttpRequest();
 
   xhr.withCredentials = true;
-  xhr.addEventListener("readystatechange", function() {
+  xhr.addEventListener('readystatechange', function() {
     if (this.readyState === 4) {
       return this.responseText;
     }
   });
 
-  xhr.open("PUT", url);
-  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.open('PUT', url);
+  xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(data);
 }
