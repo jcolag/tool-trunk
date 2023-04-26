@@ -200,8 +200,16 @@ function buildVideo(media, toot) {
 }
 
 function buildFooter(toot) {
+  const emoji = [ '💬', '🔁', '❤️', '🔖', '…' ];
   const footer = document.createElement('div');
 
+  emoji.forEach((e) => {
+    const button = document.createElement('button');
+    const text = document.createTextNode(e);
+
+    button.appendChild(text);
+    footer.appendChild(button);
+  });
   footer.classList.add('footer');
   return footer;
 }
