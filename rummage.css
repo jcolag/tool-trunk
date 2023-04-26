@@ -29,6 +29,12 @@ main {
   border-top: 1px dotted var(--orange);
 }
 
+.footer button {
+  background-color: var(--base03);
+  margin-left: 1%;
+  width: 19%;
+}
+
 .header {
   border-bottom: 1px dotted var(--orange);
   columns: 2;
