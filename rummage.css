@@ -58,6 +58,10 @@ main {
   filter: blur(0.5em) contrast(0.1);
 }
 
+.sensitive:hover {
+  filter: none;
+}
+
 .toot {
   border: 1px solid var(--violet);
   border-radius: 0.25em;
