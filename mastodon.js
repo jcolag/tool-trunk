@@ -86,26 +86,28 @@ function layoutTimeline() {
 }
 
 function buildTootPanel(toot, header, footer, status) {
-    const panel = document.createElement('div');
+  const panel = document.createElement('div');
 
-    panel.classList.add('toot');
-    panel.appendChild(header);
-    panel.appendChild(status);
-    panel.appendChild(footer);
+  panel.classList.add('toot');
+  panel.appendChild(header);
+  panel.appendChild(status);
+  panel.appendChild(footer);
 
-    toot.media_attachments.forEach((m) => {
-      switch (m.type) {
-        case 'image':
-          const image = buildImage(m, toot);
+  toot.media_attachments.forEach((m) => {
+    switch (m.type) {
+    case 'image': {
+      const image = buildImage(m, toot);
 
-          panel.appendChild(image);
-          break;
-        case 'video':
-          const video = buildVideo(m, toot);
+      panel.appendChild(image);
+      break;
+    }
+    case 'video': {
+      const video = buildVideo(m, toot);
 
-          panel.appendChild(video);
-      }
-    });
+      panel.appendChild(video);
+    }
+    }
+  });
 
   return panel;
 }
