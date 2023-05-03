@@ -182,7 +182,7 @@ function buildImage(media, toot) {
 }
 
 function buildVideo(media, toot) {
-  const source = document.createEleemnt('source');
+  const source = document.createElement('source');
   const video = document.createElement('video');
 
   source.src = media.url;
