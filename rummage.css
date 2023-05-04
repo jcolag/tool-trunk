@@ -41,8 +41,12 @@ main {
   display: grid;
 }
 
-.header img {
+.header span, .header a {
   grid-column: 1;
+  max-height: 3.25em;
+}
+
+a img {
   max-height: 3.25em;
 }
 
