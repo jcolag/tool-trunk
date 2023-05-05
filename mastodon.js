@@ -71,18 +71,36 @@ function layoutTimeline() {
   clearInterval(timelineInterval);
   timelineInterval = null;
   timeline.reverse().forEach((t) => {
-    if (t.content === '') {
-      return;
+    let toot = t;
+
+    if (pantry.toots.indexOf(toot.id) < 0) {
+      pantry.toots.push(toot.id);
     }
 
-    const status = buildStatus(t);
-    const footer = buildFooter(t);
-    const avatar = buildAvatar(t);
-    const header = buildHeader(t, avatar);
-    const panel = buildTootPanel(t, header, footer, status);
+    if (t.content === '') {
+      if (t.reblog === null) {
+        return;
+      } else {
+        toot = t.reblog;
+        if (pantry.toots.indexOf(toot.id) < 0) {
+          pantry.toots.push(toot.id);
+        }
+      }
+    }
+
+    const parts = buildToot(toot, t);
+    const panel = buildTootPanel(toot, parts[0], parts[2], parts[1]);
 
     tl.appendChild(panel);
   });
+}
+
+function buildToot(toot, original) {
+  const status = buildStatus(toot);
+  const footer = buildFooter(toot);
+  const avatar = buildAvatar(toot, original);
+  const header = buildHeader(toot, avatar);
+  return [header, status, footer];
 }
 
 function buildTootPanel(toot, header, footer, status) {
