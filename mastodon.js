@@ -157,11 +157,28 @@ function buildHeader(toot, avatar) {
   return header;
 }
 
-function buildAvatar(toot) {
+function buildAvatar(toot, originalToot) {
   const avatar = document.createElement('img');
+  const link = document.createElement('a');
+  let complete;
 
   avatar.src = toot.account.avatar;
-  return avatar;
+  avatar.title = `${toot.account.display_name} (@${toot.account.username})`;
+  link.href = toot.account.url;
+  link.appendChild(avatar);
+
+  if (toot === originalToot) {
+    complete = link;
+  } else {
+    const container = document.createElement('span');
+    const origAvatar = buildAvatar(originalToot, originalToot);
+
+    container.appendChild(origAvatar);
+    container.appendChild(link);
+    complete = container;
+  }
+
+  return complete;
 }
 
 function buildStatus(toot) {
