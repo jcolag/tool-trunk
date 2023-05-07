@@ -116,12 +116,14 @@ function buildTootPanel(toot, header, footer, status) {
     case 'image': {
       const image = buildImage(m, toot);
 
+      image.classList.add(`media-${toot.media_attachments.length}`);
       panel.appendChild(image);
       break;
     }
     case 'video': {
       const video = buildVideo(m, toot);
 
+      video.classList.add(`media-${toot.media_attachments.length}`);
       panel.appendChild(video);
     }
     }
