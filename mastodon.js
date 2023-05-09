@@ -1,5 +1,7 @@
 let config = {};
-let pantry = {};
+let pantry = {
+  toots: [],
+};
 let latch = true;
 let timelineInterval = null;
 let pantryInterval = null;
@@ -238,7 +240,7 @@ function buildVideo(media, toot) {
   return video;
 }
 
-function buildFooter(toot) {
+function buildFooter() {
   const emoji = [ '💬', '🔁', '❤️', '🔖', '…' ];
   const footer = document.createElement('div');
 
