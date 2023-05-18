@@ -35,6 +35,9 @@ function getPantry() {
 
 function assignPantry(p) {
   pantry = p;
+  if (!Object.prototype.hasOwnProperty.call(pantry, 'toots')) {
+    pantry.toots = [];
+  }
 }
 
 function updatePantry() {
