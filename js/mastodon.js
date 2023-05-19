@@ -114,26 +114,46 @@ function buildTootPanel(toot, header, footer, status) {
   panel.classList.add('toot');
   panel.appendChild(header);
   panel.appendChild(status);
+
+  if (toot.media_attachments.length > 0) {
+    const warned = document.createElement('details');
+    const warning = document.createElement('summary');
+    const container = document.createElement('div');
+
+    warning.appendChild(
+      document.createTextNode(
+        `See ${toot.media_attachments} media elements:`
+      )
+    );
+    warned.appendChild(warning);
+    warned.appendChild(container);
+    toot.media_attachments.forEach((m) => {
+      switch (m.type) {
+      case 'image': {
+        const image = buildImage(m, toot);
+
+        image.classList.add(`media-${toot.media_attachments.length}`);
+        container.appendChild(image);
+        break;
+      }
+      case 'video': {
+        const video = buildVideo(m, toot);
+
+        video.classList.add(`media-${toot.media_attachments.length}`);
+        container.appendChild(video);
+      }
+      }
+    });
+    panel.appendChild(warned);
+  }
+
+  if (toot.card !== null) {
+    const card = buildCard(toot.card);
+
+    panel.appendChild(card);
+  }
+
   panel.appendChild(footer);
-
-  toot.media_attachments.forEach((m) => {
-    switch (m.type) {
-    case 'image': {
-      const image = buildImage(m, toot);
-
-      image.classList.add(`media-${toot.media_attachments.length}`);
-      panel.appendChild(image);
-      break;
-    }
-    case 'video': {
-      const video = buildVideo(m, toot);
-
-      video.classList.add(`media-${toot.media_attachments.length}`);
-      panel.appendChild(video);
-    }
-    }
-  });
-
   return panel;
 }
 
