@@ -263,14 +263,49 @@ function buildVideo(media, toot) {
   return video;
 }
 
-function buildFooter() {
-  const emoji = [ '💬', '🔁', '❤️', '🔖', '…' ];
+function buildFooter(toot) {
+  const buttons = [
+    {
+      count: 'replies_count',
+      emoji: '💬',
+      name: 'Reply',
+    },
+    {
+      active: 'reblogged',
+      count: 'reblogs_count',
+      emoji: '🔁',
+      name: 'Reblog',
+    },
+    {
+      active: 'favourited',
+      count: 'favourites_count',
+      emoji: '❤️',
+      name: 'Favorite',
+    },
+    {
+      active: 'bookmarked',
+      emoji: '🔖',
+      name: 'Bookmark',
+    },
+    {
+      emoji: '…',
+      name: 'More',
+    },
+  ];
   const footer = document.createElement('div');
 
-  emoji.forEach((e) => {
+  buttons.forEach((b) => {
+    const bText = Object.prototype.hasOwnProperty.call(b, 'count')
+      ? `${toot[b.count]} ${b.emoji}`
+      : b.emoji;
     const button = document.createElement('button');
-    const text = document.createTextNode(e);
+    const text = document.createTextNode(bText);
 
+    if (Object.prototype.hasOwnProperty.call(b, 'active') && toot[b.active]) {
+      button.classList.add('clicked');
+    }
+
+    button.title = b.name;
     button.appendChild(text);
     footer.appendChild(button);
   });
