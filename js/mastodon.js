@@ -313,6 +313,48 @@ function buildFooter(toot) {
   return footer;
 }
 
+function buildCard(cardInfo) {
+  const link = document.createElement('a');
+  const box = document.createElement('div');
+  const img = document.createElement('img');
+  const title = document.createElement('h3');
+  const titleText = document.createTextNode(cardInfo.title);
+  const source = document.createElement('b');
+  const sourceName = document.createTextNode(cardInfo.provider_name);
+  const description = document.createTextNode(cardInfo.description);
+  const break1 = document.createElement('br');
+  const break2 = document.createElement('br');
+  const details = document.createElement('details');
+  const summary = document.createElement('summary');
+  const provider = document.createElement('span');
+  const prov = document.createTextNode(
+    cardInfo.provider_name && cardInfo.provider_name.length > 0
+    ? cardInfo.provider_name
+    : cardInfo.title
+  );
+
+  if (Object.prototype.hasOwnProperty.call(cardInfo, 'image')) {
+    img.src = cardInfo.image;
+    box.appendChild(img);
+  }
+
+  provider.classList.add('card-summary');
+  provider.appendChild(prov);
+  summary.appendChild(provider);
+  source.appendChild(sourceName);
+  title.appendChild(titleText);
+  box.classList.add('card');
+  box.appendChild(title);
+  box.appendChild(break1);
+  box.appendChild(source);
+  box.appendChild(break2);
+  box.appendChild(description);
+  link.appendChild(box);
+  details.appendChild(summary);
+  details.appendChild(link);
+  return details;
+}
+
 function setConfig(response) {
   const modal = document.getElementById('startup-modal');
   const decoder = new TextDecoder('utf-8');
