@@ -122,7 +122,7 @@ function buildTootPanel(toot, header, footer, status) {
 
     warning.appendChild(
       document.createTextNode(
-        `See ${toot.media_attachments} media elements:`
+        `See ${toot.media_attachments.length} media elements:`
       )
     );
     warned.appendChild(warning);
