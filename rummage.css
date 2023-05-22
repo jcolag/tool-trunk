@@ -1,6 +1,15 @@
 body {
 }
 
+button {
+  white-space: nowrap;
+}
+
+button.clicked {
+  border-style: inset;
+	filter: brightness(80%) saturate(80%);
+}
+
 main {
   margin: 0;
   margin-left: 15ch;
