@@ -82,6 +82,9 @@ a img {
 
 .header .head {
   grid-column: 2;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	white-space: nowrap;
 }
 
 .invisible {
