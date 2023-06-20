@@ -24,7 +24,8 @@ function getPantry() {
   }
 
   httpGet(
-    `https://getpantry.cloud/apiv1/pantry/${config.pantry.trim()}`,
+    `https://getpantry.cloud/apiv1/pantry/${config.pantry.trim()}`
+      + '/basket/Rummager',
     null,
     assignPantry
   );
