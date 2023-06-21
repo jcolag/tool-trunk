@@ -31,7 +31,7 @@ function getPantry() {
   );
 
   clearInterval(pantryInterval);
-  pantryInterval = setInterval(updatePantry, 6000);
+  pantryInterval = setInterval(updatePantry, 500);
 }
 
 function assignPantry(p) {
