@@ -56,7 +56,7 @@ function getTimeline() {
 
   clearInterval(timelineInterval);
   httpGet(
-    `https://${config.server}/api/v1/timelines/home`,
+    `https://${config.server}/api/v1/timelines/home?limit=40`,
     `${config.token.token_type} ${config.token.access_token}`,
     assignTimeline
   );
