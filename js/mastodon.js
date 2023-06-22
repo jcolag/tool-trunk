@@ -68,7 +68,7 @@ function assignTimeline(t) {
 }
 
 function layoutTimeline() {
-  if (timeline.length === 0) {
+  if (timeline.length === 0 || pantry.toots.length === 0) {
     return;
   }
 
