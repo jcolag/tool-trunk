@@ -406,5 +406,5 @@ function httpPut(url, data) {
 
   xhr.open('PUT', url);
   xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.send(data);
+  xhr.send(JSON.stringify(data));
 }
