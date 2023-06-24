@@ -76,12 +76,19 @@ function layoutTimeline() {
 
   clearInterval(timelineInterval);
   timelineInterval = null;
-  timeline.reverse().forEach((t) => {
-    let toot = t;
-
-    if (pantry.toots.indexOf(toot.id) < 0) {
-      pantry.toots.push(toot.id);
-    }
+  timeline
+    .filter((t) => pantry.toots.indexOf(t.id) < 0)
+    .filter((t) =>
+      !Object.prototype.hasOwnProperty.call(t, 'reblog')
+      || t.reblog === null
+      || pantry.toots.indexOf(t.reblog.id) < 0
+    )
+    .reverse().forEach((t) => {
+      let toot = t;
+  console.log(toot);
+      if (pantry.toots.indexOf(toot.id) < 0) {
+        pantry.toots.push(toot.id);
+      }
 
     if (t.content === '') {
       if (t.reblog === null) {
