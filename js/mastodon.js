@@ -47,6 +47,9 @@ function updatePantry() {
   }
 
   // Eventually, we'll insert data based on the timeline contents.
+  if (!Object.prototype.hasOwnProperty.call(config, 'pantry')) {
+    return;
+  }
 }
 
 function getTimeline() {
