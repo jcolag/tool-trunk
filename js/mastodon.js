@@ -50,6 +50,16 @@ function updatePantry() {
   if (!Object.prototype.hasOwnProperty.call(config, 'pantry')) {
     return;
   }
+  let ids = timeline.map((t) => t.id);
+  const rids = timeline
+    .map((t) => t.reblog)
+    .filter((t) => t)
+    .map((t) => t.id);
+
+  for (let i = 0; i < rids.length; i++) {
+    ids.push(rids[i]);
+  }
+
 }
 
 function getTimeline() {
