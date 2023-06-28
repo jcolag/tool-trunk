@@ -4,6 +4,13 @@ GEM
     highline (2.1.0)
     http-form_data (2.3.0)
     json (2.6.3)
+    little-plugger (1.1.4)
+    logging (2.3.1)
+      little-plugger (~> 1.1)
+      multi_json (~> 1.14)
+    matrix_sdk (2.8.0)
+      logging (~> 2)
+    multi_json (1.15.0)
     pkg-config (1.5.1)
     rmagick (5.1.0)
       pkg-config (~> 1.4)
@@ -15,6 +22,7 @@ DEPENDENCIES
   highline
   http-form_data
   json
+  matrix_sdk
   rmagick
 
 BUNDLED WITH
