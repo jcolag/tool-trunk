@@ -46,10 +46,10 @@ function updatePantry() {
     return;
   }
 
-  // Eventually, we'll insert data based on the timeline contents.
   if (!Object.prototype.hasOwnProperty.call(config, 'pantry')) {
     return;
   }
+
   let ids = timeline.map((t) => t.id);
   const rids = timeline
     .map((t) => t.reblog)
