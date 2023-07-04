@@ -65,6 +65,8 @@ function updatePantry() {
   }
 
   pantry.toots = ids.filter((v, i, a) => a.indexOf(v) === i)
+  clearInterval(pantryInterval);
+  pantryInterval = null;
 }
 
 function getTimeline() {
