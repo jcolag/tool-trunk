@@ -60,6 +60,11 @@ function updatePantry() {
     ids.push(rids[i]);
   }
 
+  for (let i = 0; i < pantry.toots; i++) {
+    ids.push(pantry.toots[i]);
+  }
+
+  pantry.toots = ids.filter((v, i, a) => a.indexOf(v) === i)
 }
 
 function getTimeline() {
