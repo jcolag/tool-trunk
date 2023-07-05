@@ -67,6 +67,11 @@ function updatePantry() {
   pantry.toots = ids.filter((v, i, a) => a.indexOf(v) === i)
   clearInterval(pantryInterval);
   pantryInterval = null;
+  httpPut(
+    `https://getpantry.cloud/apiv1/pantry/${config.pantry.trim()}`
+      + '/basket/Rummager',
+    pantry
+  );
 }
 
 function getTimeline() {
