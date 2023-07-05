@@ -115,13 +115,14 @@ function layoutTimeline() {
         pantry.toots.push(toot.id);
       }
 
-    if (t.content === '') {
-      if (t.reblog === null) {
-        return;
-      } else {
-        toot = t.reblog;
-        if (pantry.toots.indexOf(toot.id) < 0) {
-          pantry.toots.push(toot.id);
+      if (t.content === '') {
+        if (t.reblog === null) {
+          return;
+        } else {
+          toot = t.reblog;
+          if (pantry.toots.indexOf(toot.id) < 0) {
+            pantry.toots.push(toot.id);
+          }
         }
       }
     }
