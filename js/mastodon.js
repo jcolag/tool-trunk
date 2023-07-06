@@ -125,13 +125,12 @@ function layoutTimeline() {
           }
         }
       }
-    }
 
-    const parts = buildToot(toot, t);
-    const panel = buildTootPanel(toot, parts[0], parts[2], parts[1]);
+      const parts = buildToot(toot, t);
+      const panel = buildTootPanel(toot, parts[0], parts[2], parts[1]);
 
-    tl.appendChild(panel);
-  });
+      tl.appendChild(panel);
+    });
 }
 
 function buildToot(toot, original) {
