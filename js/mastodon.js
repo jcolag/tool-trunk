@@ -338,6 +338,14 @@ function buildFooter(toot) {
       button.classList.add('clicked');
     }
 
+    if (Object.prototype.hasOwnProperty.call(b, 'api')) {
+      button.setAttribute(
+        'hx-post',
+        `https://${config.server}${b.api.replace('{id}', toot.id)}`
+      );
+      button.setAttribute('hx-trigger', 'click');
+    }
+
     button.title = b.name;
     button.appendChild(text);
     footer.appendChild(button);
