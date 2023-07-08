@@ -311,6 +311,7 @@ function buildFooter(toot) {
     },
     {
       active: 'favourited',
+      api: '/api/v1/statuses/{id}/favourite',
       count: 'favourites_count',
       emoji: '❤️',
       name: 'Favorite',
