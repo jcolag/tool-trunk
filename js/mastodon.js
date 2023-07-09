@@ -444,7 +444,6 @@ function httpPut(url, data) {
       return this.responseText;
     }
   });
-
   xhr.open('PUT', url);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(JSON.stringify(data));
