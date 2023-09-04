@@ -1,25 +1,49 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.8.5)
+      public_suffix (>= 2.0.2, < 6.0)
+    domain_name (0.5.20190701)
+      unf (>= 0.0.5, < 1.0.0)
+    ffi (1.15.5)
+    ffi-compiler (1.0.1)
+      ffi (>= 1.0.0)
+      rake
     highline (2.1.0)
+    http (5.1.1)
+      addressable (~> 2.8)
+      http-cookie (~> 1.0)
+      http-form_data (~> 2.2)
+      llhttp-ffi (~> 0.4.0)
+    http-cookie (1.0.5)
+      domain_name (~> 0.5)
     http-form_data (2.3.0)
     json (2.6.3)
     little-plugger (1.1.4)
+    llhttp-ffi (0.4.0)
+      ffi-compiler (~> 1.0)
+      rake (~> 13.0)
     logging (2.3.1)
       little-plugger (~> 1.1)
       multi_json (~> 1.14)
     matrix_sdk (2.8.0)
       logging (~> 2)
     multi_json (1.15.0)
-    pkg-config (1.5.1)
-    rmagick (5.1.0)
+    pkg-config (1.5.3)
+    public_suffix (5.0.3)
+    rake (13.0.6)
+    rmagick (5.3.0)
       pkg-config (~> 1.4)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.8.2)
 
 PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
   highline
+  http
   http-form_data
   json
   matrix_sdk
