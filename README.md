@@ -12,12 +12,13 @@ This pulls activity for the account (specified in the configuration file), speci
 
 ## `schedule.rb`
 
-In progress.  As of now, this doesn't yet work.
+In progress.  As of now, this mostly works, but sometimes needs some help.
 
-However, it comes *close* to scheduling a Mastodon post/toot, complete with optional image, content warning, and future schedule time.  This also takes information from the configuration file, but has command-line options on top of that, specific to the post.  Call the following for a list of such options.
+However, it schedules a Mastodon post/toot, complete with optional image, content warning, and future schedule time.  This also takes information from the configuration file, but has command-line options on top of that, specific to the post.  Call the following for a list of such options.
 
 ```console
 ruby schedule.rb --help
 ```
 
+Its big problems, at this time, come from error handling, especially in downloading images.
 
