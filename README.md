@@ -22,3 +22,9 @@ ruby schedule.rb --help
 
 Its big problems, at this time, come from error handling, especially in downloading images.
 
+## `parse.rb`
+
+Consider this the centerpiece of the repository, at least at this time.
+
+This script parses one of my "social media roundup" blog posts---the parts written *before* the social media posts actually go out, for anything that I pre-schedule---then builds and executes the `schedule.rb` command to get that post/toot out at the proper time.
+
