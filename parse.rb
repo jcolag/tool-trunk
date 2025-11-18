@@ -25,7 +25,7 @@ class Options
 end
 
 def parse_date(heading)
-  tz = (Time.now + (6 * 86_400)).utc_offset / 36
+  tz = (Time.now + (2 * 86_400)).utc_offset / 36
   part = heading.split
   param = {}
 
