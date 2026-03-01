@@ -40,8 +40,10 @@ end
 
 def parse_link(line)
   link = line.split '['
+  at = line.split('@').reverse[0,2].reverse
   title = nil
   url = nil
+  fedi = nil
 
   if link.length > 2
     link = link[2]
@@ -49,14 +51,16 @@ def parse_link(line)
     url = link.split('(')[1].split(')')[0]
   end
 
-  [title, url]
+  fedi = ' @' + at.join('@') if at.length == 2
+
+  [title, url, fedi]
 end
 
 def build_status(params)
   return if params[:quote].nil?
   return "#{params[:quote].gsub "\n\n", "\n"}\n\n#{params[:cite]}\n\n#{params[:hashtags]}" unless params[:cite].nil?
 
-  "#{params[:title]} #{params[:url]}\n\n#{params[:quote].strip}\n\n#{params[:hashtags]}"
+  "#{params[:title]} #{params[:url]}#{params[:fedi]}\n\n#{params[:quote].strip}\n\n#{params[:hashtags]}"
 end
 
 def fmt_args(command, params)
@@ -85,7 +89,7 @@ File.open(options.file).each_line do |line|
   if line.start_with? '## '
     parameters[:status] = build_status parameters
 
-    process parameters.except(:cite, :hashtags, :quote, :title, :url)
+    process parameters.except(:cite, :fedi, :hashtags, :quote, :title, :url)
     parameters = parse_date line
     break if parameters[:time].nil?
   elsif line.start_with? '{% cw '
