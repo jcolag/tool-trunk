@@ -12,7 +12,7 @@ class Options
     options = OpenStruct.new
 
     opt_parser = OptionParser.new do |opts|
-      opts.banner = 'Usage:  schedule.rb [options]'
+      opts.banner = 'Usage:  parse.rb [options]'
       opts.separator 'Specific options:'
       opts.on('-f', '--file FILE', 'The blog post to parse') do |i|
         options.file = i
@@ -105,8 +105,9 @@ File.open(options.file).each_line do |line|
 
     parameters[:title] = part[0]
     parameters[:url] = part[1]
-  elsif line.start_with? ' > '
-    parameters[:quote] += "\n#{line.slice(3, line.length)}"
+    parameters[:fedi] = part[2]
+  elsif line.start_with? ' > ' or line.start_with? '> '
+    parameters[:quote] += "\n#{line.slice(2, line.length)}".strip
   elsif line.start_with? '{% cite '
     parameters[:cite] = line.split[2..-2].join ' '
   elsif line.start_with? 'Hashtags: '
