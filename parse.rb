@@ -45,8 +45,8 @@ def parse_link(line)
   url = nil
   fedi = nil
 
-  if link.length > 2
-    link = link[2]
+  if link.length > 1
+    link = link[1]
     title = link.split(']')[0]
     url = link.split('(')[1].split(')')[0]
   end
@@ -100,7 +100,7 @@ File.open(options.file).each_line do |line|
     parameters[:image_url] = part[0]
     parameters[:description] = part[1]
     parameters[:sensitive] = true unless part[2] == 'false'
-  elsif line.start_with? '[<i '
+  elsif line.start_with? '[' and !line.start_with? '[<i '
     part = parse_link line
 
     parameters[:title] = part[0]
