@@ -100,7 +100,7 @@ def call_http_get(server, path, token)
 
   return nil if error response
 
-  JSON.parse response.body
+  JSON.parse response.body, allow_duplicate_key: true
 end
 
 def verify_account(server, token)
@@ -122,7 +122,7 @@ def send_toot(server, token, parameters)
 
   return nil if error response
 
-  JSON.parse response.body
+  JSON.parse response.body, allow_duplicate_key: true
 end
 
 def delete_scheduled_toot(server, token, id)
